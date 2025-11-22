@@ -6,7 +6,7 @@ use App\Models\Customer;
 
 class CustomerRepository
 {
-    public function firstOrCreate($name, $phone, $email = null)
+    public function firstOrCreate($phone, $name, $email = null)
     {
         $customer = Customer::firstOrCreate(
             ['phone' => $phone], [

@@ -4,6 +4,7 @@ namespace App\Services\Ticket;
 
 use App\Http\Requests\Ticket\StoreTicketRequest;
 use App\Http\Requests\Ticket\UpdateTicketRequest;
+use App\Models\Ticket;
 use App\Repositories\Customer\CustomerRepository;
 use App\Repositories\Ticket\TicketRepository;
 
@@ -18,11 +19,32 @@ class TicketService
             $request->customer_email);
 
         $ticket = $this->ticket->create([
-            $request->subject,
-            $request->text
+            'subject' => $request->subject,
+            'text' => $request->text,
+            'customer_id' => $customer->id,
+            'status' => 'new'
         ]);
 
         return $ticket;
+    }
+
+    public function getStatistics()
+    {
+        return [
+            'day' => Ticket::day()->count(),
+            'month' => Ticket::month()->count(),
+            'week' =>Ticket::week()->count()
+        ];
+    }
+
+    public function getStatisticPeriod($period)
+    {
+        if (!method_exists(Ticket::class, 'scope'.ucfirst($period))) {
+            return ['error' => "Есть только такие периоды: 'day', 'week'', 'month'"];
+        }
+        return [
+            $period => Ticket::$period()->count()
+        ];
     }
 
     public function updateStatusTicket(UpdateTicketRequest $request)
