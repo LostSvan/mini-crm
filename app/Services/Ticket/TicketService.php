@@ -47,6 +47,18 @@ class TicketService
         ];
     }
 
+    public function getAllTickets($request)
+    {
+        $filters = $request->only(['status', 'from', 'to', 'phone', 'email']);
+
+        if (!empty(array_filter($filters))) {
+            return $this->ticket->getAllWithFilters($filters)->orderByDesc('id')
+                ->paginate(10);
+        }
+
+        return $this->ticket->getAllWithPaginate();
+    }
+
     public function updateStatusTicket(UpdateTicketRequest $request)
     {
 
