@@ -19,7 +19,7 @@ class RolesSeeder extends Seeder
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
         Permission::create(['name' => 'view customers']);
         Permission::create(['name' => 'view tickets']);
-        //По мере разработки возможно будут прибавляться
+        Permission::firstOrCreate(['name' => 'delete tickets']);
 
         $roleAdmin = Role::findOrCreate('admin');
         $roleAdmin->givePermissionTo(Permission::all());
@@ -28,14 +28,37 @@ class RolesSeeder extends Seeder
 
         $user = User::create([
             'name' => 'User Admin',
-            'email' => 'lostsvan@gmail.com',
-            'password' => bcrypt('vlad28')
+            'email' => 'admin@test.com',
+            'password' => bcrypt('admin')
         ]);
         $user->assignRole($roleAdmin);
 
-        User::factory()->count(3)->create()->each(function ($user) {
-            $user->assignRole('manager');
-        });
+        $manager1 = User::create(
+            ['email' => 'manager1@test.com',
+            'name' => 'Manager 1',
+            'password' => bcrypt('manager1'),
+            ]
+        );
+        $manager1->assignRole('manager');
+
+        $manager2 = User::create(
+            ['email' => 'manager2@test.com',
+                'name' => 'Manager 2',
+                'password' => bcrypt('manager2'),
+            ]
+        );
+        $manager2->assignRole('manager');
+
+        $manager3 = User::create(
+            ['email' => 'manager3@test.com',
+                'name' => 'Manager 3',
+                'password' => bcrypt('manager3'),
+            ]
+        );
+        $manager3->assignRole('manager');
+//        User::factory()->count(3)->create()->each(function ($user) {
+//            $user->assignRole('manager');
+//        });
 
     }
 }

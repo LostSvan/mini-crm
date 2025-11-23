@@ -73,4 +73,9 @@ class TicketService
 
         return $ticket;
     }
+
+    public function delete(Ticket $ticket)
+    {
+        return $ticket->delete();
+    }
 }

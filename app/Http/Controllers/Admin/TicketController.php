@@ -30,4 +30,16 @@ class TicketController extends Controller
 
         return redirect()->back()->with('success', 'Статус обновлен');
     }
+
+    public function destroy(Ticket $ticket)
+    {
+        if (!auth()->user()->hasRole('admin')) {
+            abort(403, 'У вас нет прав на удаление тикетов');
+        }
+
+        $this->ticket->delete($ticket);
+
+        return redirect()->back()->with('success', 'Тикет удалён');
+    }
+
 }

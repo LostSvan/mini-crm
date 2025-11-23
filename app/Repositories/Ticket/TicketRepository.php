@@ -13,7 +13,7 @@ class TicketRepository
 
     public function getAllWithPaginate()
     {
-        return Ticket::paginate(10);
+        return Ticket::orderBy('id', 'desc')->paginate(10);
     }
 
     public function getAllWithFilters($filter)

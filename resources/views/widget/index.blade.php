@@ -76,7 +76,7 @@
             <input type="text" name="customer_phone" id="customer_phone">
         </div>
         <div class="widget-field">
-            <label>Email (необязательно)</label>
+            <label>Email</label>
             <input type="email" name="customer_email" id="customer_email">
         </div>
         <div class="widget-field">
@@ -103,12 +103,15 @@
         document.addEventListener('submit', function (e) {
             e.preventDefault();
             let formData = new FormData();
+            let fileField = document.getElementById('file').files[0];
             formData.append('customer_name', document.getElementById('customer_name').value);
             formData.append('customer_email', document.getElementById('customer_email').value);
             formData.append('customer_phone', document.getElementById('customer_phone').value);
             formData.append('subject', document.getElementById('subject').value);
             formData.append('text', document.getElementById('text').value);
-            formData.append('file', document.getElementById('file').files[0]);
+            if (fileField && fileField.files.length > 0) {
+                formData.append('file', fileField.files[0]);
+            }
             fetch('/api/tickets', {
                 method: 'POST',
                 headers: {

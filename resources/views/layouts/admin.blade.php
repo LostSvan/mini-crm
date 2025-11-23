@@ -15,6 +15,10 @@
             <div class="flex justify-between">
                 <div class="font-bold">
                     Admin Panel
+                    <div class="ml-3 inline items-center rounded-lg bg-white px-3 py-1 text-black hover:bg-gray-100 border-2 border-black rounded-2xl mt-3">
+                        {{ auth()->user()->name }} -
+                        <span class="uppercase">{{ auth()->user()->getRoleNames()->first() }}</span>
+                    </div>
                 </div>
                 <div>
                     <form action="{{route('logout')}}" method="POST">

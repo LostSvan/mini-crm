@@ -7,7 +7,7 @@ use App\Http\Controllers\Admin\TicketController as AdminTicketController;
 
 
 Route::get('/', function () {
-    return redirect()->route('login');
+    return redirect()->route('admin.tickets.index');
 });
 
 Route::middleware(['auth', 'role:admin|manager'])
@@ -17,6 +17,7 @@ Route::middleware(['auth', 'role:admin|manager'])
         Route::get('/tickets', [AdminTicketController::class, 'index'])->name('tickets.index');
         Route::get('/tickets/{ticket}', [AdminTicketController::class, 'show'])->name('tickets.show');
         Route::patch('/tickets/{ticket}/status', [AdminTicketController::class, 'updateStatus'])->name('tickets.update-status');
+        Route::delete('/tickets/{ticket}', [AdminTicketController::class, 'destroy'])->name('tickets.destroy');
     });
 
 

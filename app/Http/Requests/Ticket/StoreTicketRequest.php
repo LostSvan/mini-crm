@@ -24,7 +24,7 @@ class StoreTicketRequest extends FormRequest
         return [
             'customer_name' => 'required|string|max:50',
             'customer_phone' => 'required|regex:/^\+[1-9]\d{7,14}$/',
-            'customer_email' => 'nullable|email|max:100',
+            'customer_email' => 'required|email|max:100',
             'subject' => 'required|string|max:255',
             'text' => 'required|string|max:2000',
             'file' => 'nullable|file|max:5000'
@@ -39,6 +39,7 @@ class StoreTicketRequest extends FormRequest
             'customer_name.max' => 'Максимум 50 символов',
             'customer_email.email' => 'Введите ваш email',
             'customer_email.max' => 'Максимум 100 символов',
+            'customer_email.required' => 'Поле email является обязательным',
             'customer_phone.required' => 'Поле телефон является обязательным',
             'customer_phone.regex' => 'Телефон должен быть в формате "+380959999999"',
             'subject.required' => 'Поле темы является обязательным',

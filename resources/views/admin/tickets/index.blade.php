@@ -100,9 +100,16 @@
                                 {{$ticket->created_at}}
                             </td>
                             <td class="px-4 py-6 text-center text-sm text-black">
-                                <a href="{{ route('admin.tickets.show', $ticket) }}" class="inline items-center rounded-lg bg-white px-3 py-1 text-black hover:bg-gray-100 border-2 border-black rounded-2xl">
+                                <a href="{{ route('admin.tickets.show', $ticket) }}" class="block items-center rounded-lg mb-3 bg-white px-3 py-1 text-black hover:bg-gray-100 border-2 border-black rounded-2xl">
                                     Открыть
                                 </a>
+                                @role('admin')
+                                <form action="{{ route('admin.tickets.destroy', $ticket->id) }}" method="POST" onsubmit="return confirm('Удалить тикет?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="block w-full items-center rounded-lg bg-red-600 px-3 py-1 text-black hover:bg-red-700 border-2 border-black rounded-2xl">Удалить</button>
+                                </form>
+                                @endrole
                             </td>
                         </tr>
                     @endforeach
