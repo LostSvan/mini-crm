@@ -17,6 +17,8 @@
             border: 2px solid #212121;
             border-radius: 20px;
             padding: 15px;
+            background: #fff;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
         .widget-field {
             display: flex;
@@ -39,14 +41,25 @@
             background: #fff;
             border-radius: 10px;
             padding: 7px 10px;
+            cursor: pointer;
         }
         .widget-success {
-            color: green;
+            color: #fff;
             margin-bottom: 10px;
+            background: #509a5c;
+            border-radius: 26px;
+            padding: 16px;
+            font-weight: bold;
+            border: 2px solid #3f843c;
         }
         .widget-error {
-            color: red;
+            color: #fff;
             margin-bottom: 10px;
+            background: #ad5757;
+            border-radius: 26px;
+            padding: 16px;
+            font-weight: bold;
+            border: 2px solid red;
         }
     </style>
 </head>
@@ -74,6 +87,11 @@
             <label>Сообщение</label>
             <textarea name="text" id="text"></textarea>
         </div>
+        <div class="widget-field">
+            <label>Файл</label>
+            <input type="file" name="file" id="file">
+        </div>
+
 
         <button type="submit" class="widget-btn">Отправить</button>
 
@@ -84,20 +102,19 @@
 
         document.addEventListener('submit', function (e) {
             e.preventDefault();
-
+            let formData = new FormData();
+            formData.append('customer_name', document.getElementById('customer_name').value);
+            formData.append('customer_email', document.getElementById('customer_email').value);
+            formData.append('customer_phone', document.getElementById('customer_phone').value);
+            formData.append('subject', document.getElementById('subject').value);
+            formData.append('text', document.getElementById('text').value);
+            formData.append('file', document.getElementById('file').files[0]);
             fetch('/api/tickets', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 },
-                body: JSON.stringify({
-                    customer_name: document.getElementById('customer_name').value,
-                    customer_email: document.getElementById('customer_email').value,
-                    customer_phone: document.getElementById('customer_phone').value,
-                    subject: document.getElementById('subject').value,
-                    text: document.getElementById('text').value
-                })
+                body: formData
             })
                 .then(response => response.json().then(data => ({ ok: response.ok, data })))
                 .then(result => {

@@ -24,6 +24,7 @@ class TicketResource extends JsonResource
             'customer_name' => $this->customer_name,
             'customer_phone' => $this->customer_phone,
             'customer_email' => $this->customer_email,
+            'file' => $this->getMedia('ticket_file')->pluck('original_url'),
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s')
         ];

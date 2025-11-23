@@ -19,12 +19,12 @@
                 <div>
                     <form action="{{route('logout')}}" method="POST">
                         @csrf
-                        <button type="submit">Выход</button>
+                        <button type="submit" class="inline items-center rounded-lg bg-white px-3 py-1 text-black hover:bg-gray-100 border-2 border-black rounded-2xl">Выход</button>
                     </form>
                 </div>
             </div>
         </header>
-        <main class="flex">
+        <main class="flex border-black border-b-2">
             @yield('content')
         </main>
         <footer>

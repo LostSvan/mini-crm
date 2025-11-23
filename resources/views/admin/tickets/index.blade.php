@@ -9,11 +9,6 @@
             <h1 class="text-xl font-semibold text-gray-800">
                 Тикеты
             </h1>
-
-            <a href="#"
-               class="flex items-center rounded-lg bg-white px-3 py-1 text-black hover:bg-gray-100 border-2 border-black rounded-2xl">
-                + Новый тикет
-            </a>
         </div>
         <form method="GET" class="flex gap-4 mb-6">
 
@@ -49,6 +44,7 @@
 
             <div class="flex items-end">
                 <button class="flex items-center rounded-lg bg-white px-3 py-1 text-black hover:bg-gray-100 border-2 border-black rounded-2xl">Фильтровать</button>
+                <a href="{{route('admin.tickets.index')}}" class="ms-3 cursor-pointer flex items-center rounded-lg bg-white px-3 py-1 text-black hover:bg-gray-100 border-2 border-black rounded-2xl">Сбросить</a>
             </div>
 
         </form>
@@ -79,37 +75,44 @@
                 </thead>
 
                 <tbody class="bg-white">
-                @foreach($tickets as $ticket)
-                    <tr class="border-b-2 border-black">
-                        <td class="px-4 py-6 text-center text-sm text-gray-500 border-r-2 border-black">
-                            {{$ticket->id}}
-                        </td>
-                        <td class="px-4 py-6 text-center text-sm text-gray-500 border-r-2 border-black">
-                            {{$ticket->subject}}
-                        </td>
-                        <td class="px-4 py-6 text-center text-sm text-gray-500 border-r-2 border-black">
-                            {{$ticket->customer_id}}
-                        </td>
-                        <td class="px-4 py-6 text-center text-sm text-gray-500 border-r-2 border-black">
-                            {{$ticket->status}}
-                        </td>
-                        <td class="px-4 py-6 text-center text-sm text-gray-500 border-r-2 border-black">
-                            {{$ticket->created_at}}
-                        </td>
-                        <td class="px-4 py-6 text-center text-sm text-gray-500">
-                            Удалить
+                @if($tickets->isNotEmpty())
+                    @foreach($tickets as $ticket)
+                        <tr class="border-b-2 border-black">
+                            <td class="px-4 py-6 text-center text-sm text-black border-r-2 border-black">
+                                {{$ticket->id}}
+                            </td>
+                            <td class="px-4 py-6 text-center text-sm text-black border-r-2 border-black">
+                                {{$ticket->subject}}
+                            </td>
+                            <td class="px-4 py-6 text-center text-sm text-black border-r-2 border-black">
+                                <div>{{$ticket->customer->name}}</div>
+                                <div>{{$ticket->customer->email}}</div>
+                                <div>{{$ticket->customer->phone}}</div>
+                            </td>
+                            <td class="px-4 py-6 text-center text-sm text-black border-r-2 border-black">
+                                @php
+                                    echo $ticket->status == 'new' ? 'Новая' : '';
+                                    echo $ticket->status == 'in_work' ? 'В работе' : '';
+                                    echo $ticket->status == 'done' ? 'Закрыта' : '';
+                                @endphp
+                            </td>
+                            <td class="px-4 py-6 text-center text-sm text-black border-r-2 border-black">
+                                {{$ticket->created_at}}
+                            </td>
+                            <td class="px-4 py-6 text-center text-sm text-black">
+                                <a href="{{ route('admin.tickets.show', $ticket) }}" class="inline items-center rounded-lg bg-white px-3 py-1 text-black hover:bg-gray-100 border-2 border-black rounded-2xl">
+                                    Открыть
+                                </a>
+                            </td>
+                        </tr>
+                    @endforeach
+                @else
+                    <tr>
+                        <td colspan="6" class="px-4 py-6 text-center font-bold text-black">
+                            Тикетов пока нет
                         </td>
                     </tr>
-                @endforeach
-                <tr>
-{{--                    <td class="px-4 py-6 text-center text-sm text-gray-500">--}}
-{{--                        Тикетов пока нет--}}
-{{--                    </td>--}}
-
-{{--                    <td colspan="6" class="px-4 py-6 text-center text-sm text-gray-500">--}}
-{{--                        Тикетов пока нет--}}
-{{--                    </td>--}}
-                </tr>
+                @endif
                 </tbody>
 
             </table>

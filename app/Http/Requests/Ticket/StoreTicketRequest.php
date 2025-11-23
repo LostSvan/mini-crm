@@ -27,6 +27,7 @@ class StoreTicketRequest extends FormRequest
             'customer_email' => 'nullable|email|max:100',
             'subject' => 'required|string|max:255',
             'text' => 'required|string|max:2000',
+            'file' => 'nullable|file|max:5000'
         ];
     }
 
@@ -46,6 +47,8 @@ class StoreTicketRequest extends FormRequest
             'text.required' => 'Поле текст является обязательным',
             'text.string' => 'Поле текст должно быть строкой',
             'text.max' => 'Максимум 2000 символов',
+            'file.file' => 'Это должен быть файл',
+            'file.max' => 'Максимальный размер 5мб'
 
         ];
     }

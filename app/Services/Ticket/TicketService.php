@@ -25,6 +25,9 @@ class TicketService
             'status' => 'new'
         ]);
 
+        if ($request->hasFile('м')) {
+            $ticket->addMedia($request->file('file'))->toMediaCollection('ticket_file');
+        }
         return $ticket;
     }
 
@@ -59,8 +62,15 @@ class TicketService
         return $this->ticket->getAllWithPaginate();
     }
 
-    public function updateStatusTicket(UpdateTicketRequest $request)
+    public function updateStatusTicket($ticket, $status)
     {
+        $ticket->status = $status;
+        if ($status === 'done') {
+            $ticket->answered_at = now();
+        }
 
+        $ticket->save();
+
+        return $ticket;
     }
 }
